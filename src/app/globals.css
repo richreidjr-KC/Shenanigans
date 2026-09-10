@@ -1,0 +1,94 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* --- Custom Dirty Diaperz styles --- */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html,
+body {
+  height: 100%;
+}
+
+body.app-root {
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  background: #050505;
+  color: #ffffff;
+}
+
+/* Header */
+.app-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 24px;
+  border-bottom: 1px solid #222;
+  background: #000;
+}
+
+.app-title {
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #00ff88;
+}
+
+.app-nav a {
+  margin-left: 12px;
+  font-size: 0.9rem;
+  color: #cccccc;
+  text-decoration: none;
+}
+
+.app-nav a:hover {
+  color: #00ff88;
+}
+
+/* Main content wrapper */
+.app-main {
+  padding: 24px;
+}
+
+/* Grid layout */
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 16px;
+}
+
+/* Card styles */
+.card {
+  background: #111;
+  border-radius: 10px;
+  padding: 16px;
+  border: 1px solid #222;
+  cursor: pointer;
+  transition: transform 0.12s ease, box-shadow 0.12s ease, border-color 0.12s ease;
+}
+
+.card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 0 12px rgba(0, 255, 136, 0.35);
+  border-color: #00ff88;
+}
+
+.card-title {
+  font-weight: 600;
+  margin-bottom: 6px;
+}
+
+.card-subtitle {
+  font-size: 0.85rem;
+  color: #aaaaaa;
+}
+
+/* Section titles */
+.section-title {
+  font-size: 1.2rem;
+  margin-bottom: 12px;
+  font-weight: 600;
+}
