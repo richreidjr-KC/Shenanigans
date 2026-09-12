@@ -8,8 +8,26 @@ const supabase = createClient(
   process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
 );
 
+interface SetlistItem {
+  song_id: string;
+  position: number;
+}
+
+interface Song {
+  id: string;
+  Song: string;
+  Artist: string;
+}
+
+interface Setlist {
+  id: string;
+  name: string;
+  created_at: string;
+  songs: Song[];
+}
+
 export default function DashboardPage() {
-  const [recentSetlist, setRecentSetlist] = useState<any>(null);
+  const [recentSetlist, setRecentSetlist] = useState<Setlist | null>(null);
   const [songCount, setSongCount] = useState(0);
 
   useEffect(() => {
@@ -21,6 +39,7 @@ export default function DashboardPage() {
     const { count } = await supabase
       .from("songs")
       .select("*", { count: "exact", head: true });
+
     setSongCount(count || 0);
 
     // Get most recent setlist
@@ -30,27 +49,31 @@ export default function DashboardPage() {
       .order("created_at", { ascending: false })
       .limit(1);
 
-    if (setlists && setlists.length > 0) {
-      const sl = setlists[0];
+    if (!setlists || setlists.length === 0) return;
 
-      const { data: items } = await supabase
-        .from("setlist_items")
-        .select("song_id, position")
-        .eq("setlist_id", sl.id)
-        .order("position");
+    const sl = setlists[0];
 
-      const songIds = items.map((i) => i.song_id);
+    // Load setlist items
+    const { data: items } = await supabase
+      .from("setlist_items")
+      .select("song_id, position")
+      .eq("setlist_id", sl.id)
+      .order("position");
 
-      const { data: songs } = await supabase
-        .from("songs")
-        .select("*")
-        .in("id", songIds);
+    const safeItems: SetlistItem[] = items ?? [];
 
-      setRecentSetlist({
-        ...sl,
-        songs: songs || [],
-      });
-    }
+    const songIds = safeItems.map((i) => i.song_id);
+
+    // Load songs
+    const { data: songs } = await supabase
+      .from("songs")
+      .select("*")
+      .in("id", songIds);
+
+    setRecentSetlist({
+      ...sl,
+      songs: songs || [],
+    });
   }
 
   return (
@@ -99,7 +122,7 @@ export default function DashboardPage() {
             </div>
 
             <div className="grid grid-cols-1 gap-3">
-              {recentSetlist.songs.map((song: any) => (
+              {recentSetlist.songs.map((song) => (
                 <div
                   key={song.id}
                   className="bg-[#111] border border-[#333] rounded-lg p-4"
