@@ -1,9 +1,12 @@
 import { supabase } from "../lib/supabase";
-export default function FaceIDLogin() {
+
+type FaceIDLoginProps = {
+  factorId: string;
+};
+
+export default function FaceIDLogin({ factorId }: FaceIDLoginProps) {
   async function loginWithFaceID() {
-    const { data, error } = await supabase.auth.mfa.challenge({
-      factorType: "webauthn",
-    });
+    const { error } = await supabase.auth.mfa.challenge({ factorId });
     if (error) { alert("FaceID login failed: " + error.message); return; }
     alert("Logged in with FaceID!");
   }
