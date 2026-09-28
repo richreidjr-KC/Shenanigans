@@ -122,103 +122,75 @@ export default function SongsPage() {
   const totalRuntime = formatDuration(totalRuntimeSeconds);
 
   return (
-    <div style={{ padding: 20 }}>
-      <h1>Songs</h1>
+    <div className="space-y-4">
+      <h1 className="text-2xl font-bold text-center">Songs</h1>
 
+      {/* Search */}
       <input
         type="text"
         placeholder="Search songs..."
         value={search}
         onChange={(e) => setSearch(e.target.value)}
-        style={{
-          width: "100%",
-          padding: "8px",
-          marginBottom: "16px",
-          borderRadius: "6px",
-          border: "1px solid #444",
-          backgroundColor: "#111",
-          color: "#fff",
-        }}
       />
 
-      <button
-        onClick={() => setSortByArtist(!sortByArtist)}
-        style={{
-          backgroundColor: "#444",
-          color: "white",
-          padding: "8px 12px",
-          borderRadius: "6px",
-          marginBottom: "16px",
-        }}
-      >
+      {/* Sort */}
+      <button onClick={() => setSortByArtist(!sortByArtist)}>
         Sort by Artist: {sortByArtist ? "ON" : "OFF"}
       </button>
 
+      {/* Selected Actions */}
       {selected.length > 0 && (
-        <>
-          <p style={{ marginBottom: "16px", color: "#0f0" }}>
+        <div className="card">
+          <p className="text-gray-700 mb-3">
             ⭐ Total Runtime: {totalRuntime}
           </p>
 
-          <div style={{ marginBottom: "16px", display: "flex", gap: "10px" }}>
+          <div className="flex gap-3">
             <button
               onClick={deleteSelected}
-              style={{
-                backgroundColor: "red",
-                color: "white",
-                padding: "8px 12px",
-                borderRadius: "6px",
-              }}
+              style={{ background: "red" }}
             >
               Delete Selected ({selected.length})
             </button>
 
             <button
               onClick={addSelectedToSetlist}
-              style={{
-                backgroundColor: "#0a84ff",
-                color: "white",
-                padding: "8px 12px",
-                borderRadius: "6px",
-              }}
+              style={{ background: "#0a84ff" }}
             >
               Add Selected Songs to Setlist
             </button>
           </div>
-        </>
+        </div>
       )}
 
-      <ul style={{ listStyle: "none", padding: 0 }}>
+      {/* Song List */}
+      <div className="space-y-3">
         {sorted.map((song) => (
-          <li
+          <div
             key={song.id}
             onClick={() => toggleSelect(song.id)}
+            className="border border-gray-300 rounded-lg p-4 cursor-pointer hover:bg-gray-50 transition"
             style={{
-              marginBottom: "12px",
-              padding: "10px",
-              borderRadius: "8px",
-              cursor: "pointer",
               backgroundColor: selected.includes(song.id)
-                ? "#333"
-                : "transparent",
-              border: selected.includes(song.id)
-                ? "1px solid #0f0"
-                : "1px solid #444",
+                ? "#e5e7eb"
+                : "white",
             }}
           >
-            <strong>{song.Song}</strong> — {song.Artist}
-            <div style={{ marginTop: "4px", fontSize: "14px", opacity: 0.9 }}>
-              Length: {formatDuration(song.Duration)}
-              &nbsp; • &nbsp;
-              BPM: {song["Drummer Click BPM"] ?? song["Recording BPM"]}
-              &nbsp; • &nbsp;
-              Key: {song.Key}
-            </div>
-          </li>
-        ))}
-      </ul>
+            <div className="text-lg font-semibold">{song.Song}</div>
+            <div className="text-sm text-gray-600">{song.Artist}</div>
 
-      {sorted.length === 0 && <p>No songs found.</p>}
+            <div className="text-sm text-gray-600 mt-2">
+              Length: {formatDuration(song.Duration)} • BPM:{" "}
+              {song["Drummer Click BPM"] ?? song["Recording BPM"]} • Key:{" "}
+              {song.Key}
+            </div>
+          </div>
+        ))}
+
+        {sorted.length === 0 && (
+          <p className="text-gray-600 text-center">No songs found.</p>
+        )}
+      </div>
     </div>
   );
 }

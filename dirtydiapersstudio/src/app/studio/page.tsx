@@ -1,31 +1,66 @@
 "use client";
 
-export default function HomePage() {
-  const cards = [
-    { title: "Dashboard", subtitle: "Band overview & quick links", href: "/dashboard" },
-    { title: "Songs", subtitle: "Song library & details", href: "/songs" },
-    { title: "Studio", subtitle: "Routing, scenes, and tools", href: "/studio" },
-    { title: "Setlist Builder", subtitle: "Drag, order, and time your show", href: "/setlist" },
-    { title: "Go Live", subtitle: "Trigger BPM & cues to Reaper", href: "/live" },
-    { title: "Stems", subtitle: "Fadr.com stem splitting workflow", href: "/stems" },
-  ];
+import { useState } from "react";
+import { supabase } from "@/lib/supabaseClient";
+
+export default function StudioPage() {
+  const [selectedFile, setSelectedFile] = useState<File | null>(null);
+  const [status, setStatus] = useState<string>("Idle");
+
+  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0] || null;
+    setSelectedFile(file);
+  };
+
+  const uploadStem = async () => {
+    if (!selectedFile) {
+      alert("Please select a file first.");
+      return;
+    }
+
+    setStatus("Uploading…");
+
+    const filePath = `incoming/${Date.now()}_${selectedFile.name}`;
+
+    const { error: uploadError } = await supabase.storage
+      .from("stems")
+      .upload(filePath, selectedFile);
+
+    if (uploadError) {
+      console.error(uploadError);
+      alert("Upload failed: " + uploadError.message);
+      setStatus("Idle");
+      return;
+    }
+
+    setStatus("Uploaded successfully.");
+    alert("Stem uploaded.");
+  };
 
   return (
-    <div className="min-h-screen bg-[#0d0d0d] text-white p-10">
-      <h1 className="text-3xl font-bold mb-8">Dirty Diapers Studio</h1>
+    <div className="space-y-4">
+      <h1 className="text-2xl font-bold text-center">Studio</h1>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        {cards.map((card) => (
-          <a
-            key={card.href}
-            href={card.href}
-            className="bg-[#1a1a1a] border border-[#333] rounded-xl p-6 hover:bg-[#222] transition-colors shadow-md"
-          >
-            <div className="text-xl font-semibold">{card.title}</div>
-            <div className="text-sm text-gray-400 mt-1">{card.subtitle}</div>
-          </a>
-        ))}
+      <div className="card">
+        <div className="text-lg font-semibold mb-2">Upload Stem</div>
+
+        <p className="text-gray-600 mb-4">
+          Upload a stem file to your Dirty Diaperz Studio library.
+        </p>
+
+        <input type="file" onChange={handleFileChange} />
+
+        <button onClick={uploadStem} className="mt-3">
+          Upload Stem
+        </button>
+
+        <div className="mt-3 text-gray-700">{status}</div>
       </div>
+
+      <a href="/stems" className="card hover:bg-gray-50 transition">
+        <div className="text-lg font-semibold">View All Stems</div>
+        <div className="text-gray-600 mt-1">Browse uploaded stems</div>
+      </a>
     </div>
   );
 }

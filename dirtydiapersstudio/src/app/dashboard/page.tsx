@@ -35,14 +35,12 @@ export default function DashboardPage() {
   }, []);
 
   async function loadStats() {
-    // Count songs
     const { count } = await supabase
       .from("songs")
       .select("*", { count: "exact", head: true });
 
     setSongCount(count || 0);
 
-    // Get most recent setlist
     const { data: setlists } = await supabase
       .from("setlists")
       .select("*")
@@ -53,7 +51,6 @@ export default function DashboardPage() {
 
     const sl = setlists[0];
 
-    // Load setlist items
     const { data: items } = await supabase
       .from("setlist_items")
       .select("song_id, position")
@@ -61,10 +58,8 @@ export default function DashboardPage() {
       .order("position");
 
     const safeItems: SetlistItem[] = items ?? [];
-
     const songIds = safeItems.map((i) => i.song_id);
 
-    // Load songs
     const { data: songs } = await supabase
       .from("songs")
       .select("*")
@@ -77,58 +72,52 @@ export default function DashboardPage() {
   }
 
   return (
-    <div className="min-h-screen bg-[#0d0d0d] text-white p-10">
-      <h1 className="text-3xl font-bold mb-8">Dashboard</h1>
+    <div className="space-y-4">
+      <h1 className="text-2xl font-bold text-center">Dashboard</h1>
 
-      {/* Stats Row */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-10">
-        <div className="bg-[#1a1a1a] border border-[#333] rounded-xl p-6 shadow-md">
-          <div className="text-xl font-semibold">Songs</div>
-          <div className="text-4xl font-bold mt-2">{songCount}</div>
-        </div>
-
-        <a
-          href="/setlist"
-          className="bg-[#1a1a1a] border border-[#333] rounded-xl p-6 shadow-md hover:bg-[#222] transition-colors"
-        >
-          <div className="text-xl font-semibold">Setlist Builder</div>
-          <div className="text-sm text-gray-400 mt-1">Create or edit a setlist</div>
-        </a>
-
-        <a
-          href="/live"
-          className="bg-[#1a1a1a] border border-[#333] rounded-xl p-6 shadow-md hover:bg-[#222] transition-colors"
-        >
-          <div className="text-xl font-semibold">Go Live</div>
-          <div className="text-sm text-gray-400 mt-1">Performance mode</div>
-        </a>
+      {/* Stats */}
+      <div className="card">
+        <div className="text-lg font-semibold mb-2">Songs in Library</div>
+        <div className="text-4xl font-bold">{songCount}</div>
       </div>
 
+      {/* Setlist Builder Link */}
+      <a href="/setlist" className="card hover:bg-gray-50 transition">
+        <div className="text-lg font-semibold">Setlist Builder</div>
+        <div className="text-gray-600 mt-1">Create or edit a setlist</div>
+      </a>
+
+      {/* Go Live Link */}
+      <a href="/live" className="card hover:bg-gray-50 transition">
+        <div className="text-lg font-semibold">Go Live</div>
+        <div className="text-gray-600 mt-1">Performance mode</div>
+      </a>
+
       {/* Recent Setlist */}
-      <div className="bg-[#1a1a1a] border border-[#333] rounded-xl p-6 shadow-md">
-        <h2 className="text-2xl font-semibold mb-4">Most Recent Setlist</h2>
+      <div className="card">
+        <h2 className="text-xl font-semibold mb-3">Most Recent Setlist</h2>
 
         {!recentSetlist && (
-          <p className="text-gray-400">No setlists saved yet.</p>
+          <p className="text-gray-600">No setlists saved yet.</p>
         )}
 
         {recentSetlist && (
           <>
             <div className="mb-4">
-              <div className="text-xl font-bold">{recentSetlist.name}</div>
-              <div className="text-sm text-gray-400">
+              <div className="text-lg font-bold">{recentSetlist.name}</div>
+              <div className="text-sm text-gray-500">
                 {new Date(recentSetlist.created_at).toLocaleString()}
               </div>
             </div>
 
-            <div className="grid grid-cols-1 gap-3">
+            <div className="space-y-3">
               {recentSetlist.songs.map((song) => (
                 <div
                   key={song.id}
-                  className="bg-[#111] border border-[#333] rounded-lg p-4"
+                  className="border border-gray-300 rounded-lg p-4"
                 >
                   <div className="text-lg font-semibold">{song.Song}</div>
-                  <div className="text-sm text-gray-400">{song.Artist}</div>
+                  <div className="text-sm text-gray-600">{song.Artist}</div>
                 </div>
               ))}
             </div>

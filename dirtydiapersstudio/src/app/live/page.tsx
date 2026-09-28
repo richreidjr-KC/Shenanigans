@@ -8,22 +8,25 @@ export default function LivePage() {
 
   const triggerGoLive = async () => {
     setStatus('Sending OSC to Reaper…');
-    // TODO: call local bridge / API route that sends OSC to Reaper
     setTimeout(() => setStatus('Click track triggered (mock).'), 800);
   };
 
   return (
-    <div>
-      <h1 className="section-title">Go Live</h1>
+    <div className="space-y-4">
+      <h1 className="text-2xl font-bold text-center">Go Live</h1>
+
       <div className="card">
-        <div className="card-title">Song BPM Automation</div>
-        <div className="card-subtitle">
+        <div className="text-lg font-semibold mb-2">Song BPM Automation</div>
+
+        <p className="text-gray-600 mb-4">
           This will eventually send OSC to Reaper / X32 to start click and cues.
-        </div>
-        <button style={{ marginTop: 12 }} onClick={triggerGoLive}>
+        </p>
+
+        <button onClick={triggerGoLive}>
           Go Live (Mock)
         </button>
-        <div style={{ marginTop: 8 }}>{status}</div>
+
+        <div className="mt-3 text-gray-700">{status}</div>
       </div>
     </div>
   );
