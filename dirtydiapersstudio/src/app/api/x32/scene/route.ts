@@ -1,4 +1,5 @@
-// src/app/api/x32/scene/route.ts
+export const runtime = "nodejs";
+
 import { NextRequest, NextResponse } from "next/server";
 import osc from "osc";
 
@@ -38,23 +39,17 @@ function send(address: string, args: any[] = []) {
 export async function POST(req: NextRequest) {
   try {
     const body = await req.json();
-    const sceneNumber = Number(body.scene || 2); // e.g. 2 = DirtyDiaperzFull
+    const scene = Number(body.scene || 2);
 
-    // recall scene
-    send("/scene", [{ type: "i", value: sceneNumber }]);
+    send("/scene", [{ type: "i", value: scene }]);
 
-    // optional: ensure click/cues/IEM routing consistent with that scene
-    // (these match your DirtyDiaperzFullBandScene buses)
-    send("/bus/03/mix/on", [{ type: "i", value: 1 }]); // click
-    send("/bus/04/mix/on", [{ type: "i", value: 1 }]); // cues
-    send("/bus/09/mix/on", [{ type: "i", value: 1 }]); // drummer IEM
+    send("/bus/03/mix/on", [{ type: "i", value: 1 }]);
+    send("/bus/04/mix/on", [{ type: "i", value: 1 }]);
+    send("/bus/09/mix/on", [{ type: "i", value: 1 }]);
 
-    return NextResponse.json({ success: true, scene: sceneNumber });
+    return NextResponse.json({ success: true, scene });
   } catch (e: any) {
     console.error("[X32 scene ERROR]", e);
-    return NextResponse.json(
-      { success: false, error: e.message || "Internal error" },
-      { status: 500 }
-    );
+    return NextResponse.json({ success: false, error: e.message });
   }
 }

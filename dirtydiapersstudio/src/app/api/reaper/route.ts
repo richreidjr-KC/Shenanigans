@@ -1,3 +1,5 @@
+export const runtime = "nodejs";
+
 import { NextRequest, NextResponse } from "next/server";
 import osc from "osc";
 
@@ -39,41 +41,29 @@ const ACTIONS: Record<string, (payload?: any) => void> = {
   stop: () => send("/stop"),
   pause: () => send("/pause"),
   set_tempo: (payload) => {
-    const bpm = Number(payload?.bpm || 120);
-    send("/tempo", [{ type: "f", value: bpm }]);
+    send("/tempo", [{ type: "f", value: Number(payload?.bpm || 120) }]);
   },
   load_song: (payload) => {
-    const name = String(payload?.name || "");
-    send("/command", [{ type: "s", value: `LOAD_${name}` }]);
+    send("/command", [{ type: "s", value: `LOAD_${payload?.name}` }]);
   },
 };
 
 export async function POST(req: NextRequest) {
   try {
     const body = await req.json();
+    const fn = ACTIONS[body.action];
 
-    if (body.action) {
-      const action = String(body.action);
-      const payload = body.payload || {};
-      if (!ACTIONS[action]) {
-        return NextResponse.json(
-          { success: false, error: "Unknown action" },
-          { status: 400 }
-        );
-      }
-      ACTIONS[action](payload);
-      return NextResponse.json({ success: true, action });
+    if (!fn) {
+      return NextResponse.json(
+        { success: false, error: "Unknown action" },
+        { status: 400 }
+      );
     }
 
-    return NextResponse.json(
-      { success: false, error: "Provide {action}" },
-      { status: 400 }
-    );
+    fn(body.payload);
+    return NextResponse.json({ success: true });
   } catch (e: any) {
     console.error("[REAPER ERROR]", e);
-    return NextResponse.json(
-      { success: false, error: e.message || "Internal error" },
-      { status: 500 }
-    );
+    return NextResponse.json({ success: false, error: e.message });
   }
 }

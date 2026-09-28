@@ -1,4 +1,5 @@
-// src/app/api/reaper/markers/route.ts
+export const runtime = "nodejs";
+
 import { NextRequest, NextResponse } from "next/server";
 import osc from "osc";
 import { createClient } from "@supabase/supabase-js";
@@ -44,7 +45,7 @@ function send(address: string, args: any[] = []) {
 export async function POST(req: NextRequest) {
   try {
     const body = await req.json();
-    const songId = body.songId as string;
+    const songId = body.songId;
 
     const { data: cues, error } = await supabase
       .from("cues")
@@ -53,26 +54,19 @@ export async function POST(req: NextRequest) {
       .order("time", { ascending: true });
 
     if (error) {
-      return NextResponse.json(
-        { success: false, error: error.message },
-        { status: 500 }
-      );
+      return NextResponse.json({ success: false, error: error.message });
     }
 
-    // clear existing markers (depends on your REAPER OSC config; here we just add)
     for (const cue of cues || []) {
       send("/marker/add", [
-        { type: "f", value: cue.time }, // seconds
+        { type: "f", value: cue.time },
         { type: "s", value: cue.label },
       ]);
     }
 
-    return NextResponse.json({ success: true, count: (cues || []).length });
+    return NextResponse.json({ success: true, count: cues?.length || 0 });
   } catch (e: any) {
     console.error("[REAPER markers ERROR]", e);
-    return NextResponse.json(
-      { success: false, error: e.message || "Internal error" },
-      { status: 500 }
-    );
+    return NextResponse.json({ success: false, error: e.message });
   }
 }
