@@ -1,42 +1,23 @@
-import { useEffect, useState, useCallback } from "react";
-import { createClient } from "@supabase/ssr";
-
-export type Song = {
-  id: string;
-  title: string;
-  artist: string;
-  bpm: number | null;
-  key: string | null;
-  duration: number | null;
-};
+import { useEffect, useState } from "react";
+import { createBrowserClient } from "@supabase/ssr";
 
 export function useSongs() {
-  const [songs, setSongs] = useState<Song[]>([]);
-  const [loading, setLoading] = useState(true);
-
-  const supabase = createClient(
+  const supabase = createBrowserClient(
     process.env.NEXT_PUBLIC_SUPABASE_URL!,
     process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
   );
 
-  const loadSongs = useCallback(async () => {
-    setLoading(true);
-
-    const { data, error } = await supabase
-      .from("songs")
-      .select("*")
-      .order("title", { ascending: true });
-
-    if (!error && data) {
-      setSongs(data);
-    }
-
-    setLoading(false);
-  }, [supabase]);
+  const [songs, setSongs] = useState([]);
 
   useEffect(() => {
-    loadSongs();
-  }, [loadSongs]);
+    supabase
+      .from("songs")
+      .select("*")
+      .order("title", { ascending: true })
+      .then(({ data }) => {
+        setSongs(data || []);
+      });
+  }, []);
 
-  return { songs, loading, reload: loadSongs };
+  return songs;
 }
