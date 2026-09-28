@@ -82,11 +82,9 @@ export default function SongsPage() {
     alert("Deleted successfully.");
   };
 
-  // ⭐ NEW: Save selected songs into Supabase setlist_items
   const addSelectedToSetlist = async () => {
     if (selected.length === 0) return;
 
-    // 1. Create a new setlist
     const { data: newSetlist, error: setlistError } = await supabase
       .from("setlists")
       .insert([{ name: "New Setlist" }])
@@ -98,7 +96,6 @@ export default function SongsPage() {
       return;
     }
 
-    // 2. Insert selected songs into setlist_items
     const items = selected.map((songId, index) => ({
       setlist_id: newSetlist.id,
       song_id: songId,
@@ -114,10 +111,15 @@ export default function SongsPage() {
       return;
     }
 
-    // 3. Clear selection and go to Setlist Builder
     setSelected([]);
     window.location.href = "/setlist";
   };
+
+  const totalRuntimeSeconds = selected
+    .map((id) => songs.find((s) => s.id === id)?.Duration || 0)
+    .reduce((a, b) => a + b, 0);
+
+  const totalRuntime = formatDuration(totalRuntimeSeconds);
 
   return (
     <div style={{ padding: 20 }}>
@@ -153,31 +155,37 @@ export default function SongsPage() {
       </button>
 
       {selected.length > 0 && (
-        <div style={{ marginBottom: "16px", display: "flex", gap: "10px" }}>
-          <button
-            onClick={deleteSelected}
-            style={{
-              backgroundColor: "red",
-              color: "white",
-              padding: "8px 12px",
-              borderRadius: "6px",
-            }}
-          >
-            Delete Selected ({selected.length})
-          </button>
+        <>
+          <p style={{ marginBottom: "16px", color: "#0f0" }}>
+            ⭐ Total Runtime: {totalRuntime}
+          </p>
 
-          <button
-            onClick={addSelectedToSetlist}
-            style={{
-              backgroundColor: "#0a84ff",
-              color: "white",
-              padding: "8px 12px",
-              borderRadius: "6px",
-            }}
-          >
-            Add Selected Songs to Setlist
-          </button>
-        </div>
+          <div style={{ marginBottom: "16px", display: "flex", gap: "10px" }}>
+            <button
+              onClick={deleteSelected}
+              style={{
+                backgroundColor: "red",
+                color: "white",
+                padding: "8px 12px",
+                borderRadius: "6px",
+              }}
+            >
+              Delete Selected ({selected.length})
+            </button>
+
+            <button
+              onClick={addSelectedToSetlist}
+              style={{
+                backgroundColor: "#0a84ff",
+                color: "white",
+                padding: "8px 12px",
+                borderRadius: "6px",
+              }}
+            >
+              Add Selected Songs to Setlist
+            </button>
+          </div>
+        </>
       )}
 
       <ul style={{ listStyle: "none", padding: 0 }}>
