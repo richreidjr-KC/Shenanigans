@@ -43,8 +43,7 @@ export default function FaceIDLogin() {
     const factor = factorsData.factors[0];
     setFactorId(factor.id);
 
-    // IMPORTANT:
-    // Supabase removed `factorType` — you ONLY pass factorId now.
+    // Supabase removed factorType — only pass factorId now
     const { data: challengeData, error: challengeError } =
       await supabase.auth.mfa.challenge({
         factorId: factor.id
@@ -94,3 +93,24 @@ export default function FaceIDLogin() {
         style={{ padding: 10, width: "100%", marginBottom: 10 }}
       />
 
+      <button onClick={handleLogin} style={{ padding: 10, width: "100%" }}>
+        Send Login Email
+      </button>
+
+      <button onClick={startChallenge} style={{ padding: 10, width: "100%", marginTop: 10 }}>
+        Start MFA Challenge
+      </button>
+
+      <input
+        type="text"
+        placeholder="Enter MFA code"
+        onKeyDown={(e) => {
+          if (e.key === "Enter") verifyChallenge((e.target as HTMLInputElement).value);
+        }}
+        style={{ padding: 10, width: "100%", marginTop: 10 }}
+      />
+
+      <p style={{ marginTop: 20 }}>{status}</p>
+    </div>
+  );
+}
