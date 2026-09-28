@@ -1,0 +1,96 @@
+Song,Artist,Recording BPM,Drummer Click BPM,Time Signature,Feel,Key,Duration,Count-In,Backing Track,Voice Cue,REAPER Status,X32 Scene,Status,Source Sheet(s),Notes
+Back in Black,AC/DC,188,94,4/4,Straight rock,A major,257,4,No,No,Ready,2,WIP,WIP,Recording sometimes reported double-time (188); 94 is the natural drummer pulse. Standard 4-click count-in.
+Bandito's Refreshments,original / band jam,,,,,,,,,,Blocked - need band input,,WIP,WIP,"Original band composition - no online BPM source exists. Need Rich/band to supply click BPM, key, feel, and duration directly."
+Barracuda,Heart,137,137,4/4,Straight rock,E minor,261,4,No,No,Ready,3,WIP,WIP,Standard 4-click count-in.
+Beast of Burden,Rolling Stones,101,100,4/4,Straight rock,C#m,268,4,No,No,Ready,4,Active,Fall 2026,Standard 4-click count-in.
+Black Star,Radiohead,158,158,4/4,Rock,G major,247,4,No,No,Ready,5,Active,Fall 2026,Some sources report half-time (~79); 158 is the natural drummer pulse. Standard 4-click count-in.
+Brain Damage / Eclipse,Pink Floyd,67,67,4/4,Medley: slow groove (Brain Damage) building into anthemic outro (Eclipse),D major,321,4,No,No,Data ready,,WIP,WIP,Two-part medley from Dark Side of the Moon. Eclipse's reported ~134 BPM is the same pulse doubled - single click BPM of 67 covers both halves. Standard 4-click count-in.
+Breakdown,Tom Petty,114,114,4/4,Straight/Blues rock,A minor,162,4,No,No,Ready,6,Active,Fall 2026,Standard 4-click count-in.
+Breathe,Pink Floyd,64,64,4/4,Slow/Ballad,E minor,163,4,No,No,Ready,7,WIP,WIP,Standard 4-click count-in. Slow ballad feel.
+Butcher Brown medley,Butcher Brown (Cairo/Blue Ridge/Broad Rock),,,,,,,,,,Not started,,WIP,WIP,
+Call Me,Blondie,143,143,4/4,Disco/Uptempo rock,D minor,211,4,No,No,Ready,8,Active,Spring Picnic 25,Standard 4-click count-in.
+Can't Find My Way Home,Blind Faith (Ronstadt/Winwood version referenced),88,88,4/4,Folk-rock ballad,D major,196,4,No,No,Ready,9,Active,Fall 2026,Band-verified (from prior session DB).
+Carry On Wayward Son,Kansas,127,127,4/4,"Rock, a cappella intro",G major,326,4,No,No,Ready,10,WIP,WIP,"Song opens a cappella before the beat kicks in - click track should start at the first instrumental downbeat, not bar 1. Standard 4-click count-in from there."
+Come Together,Beatles,84,84,4/4,Laid-back rock / swamp groove,D minor,260,4,No,No,Ready,11,Active,Fall 2026,Band-verified (from prior session DB). Standard 4-click count-in.
+Comfortably Numb,Pink Floyd,127,127,4/4,Ballad/Rock (builds through solos),B minor,382,4,No,No,Ready,12,WIP,WIP,"Verses are slow/ballad feel, choruses and outro solo are more driving - same underlying pulse throughout. Standard 4-click count-in."
+Communication Breakdown,Led Zeppelin,176,176,4/4,Fast punk/hard rock,D major,150,2,No,No,Ready,13,Retired,Retired Songs,Very fast tempo - some sources report half-time (~88-93); 176 is the true pulse. Short 2-count in due to speed.
+Crazy on You,Heart,130,130,4/4,"Rock (fast acoustic intro, then full band)",A minor,294,4,No,No,Ready,14,Active,Spring Picnic 25,"Famous fast acoustic guitar intro is free-time/rubato before the band and click enter - click should start at the full-band downbeat, not bar 1. 4-count from there."
+Creep,Radiohead,92,92,4/4,"Alt rock, dynamic (quiet verse/loud chorus)",G major,238,4,No,No,Ready,15,Active,Fall 2026,Standard 4-click count-in.
+Crimson and Clover,Tommy James and the Shondells,82,82,4/4,"Psychedelic pop, tremolo outro",D major,210,4,No,No,Ready,16,WIP,WIP,Standard 4-click count-in. Long tremolo-vocal outro section if covering the extended version.
+Decode,Paramore,164,82,4/4,"Alt rock ballad, drop D",Bb minor,262,4,No,No,Ready,17,Active,Fall 2026,"Recording sometimes reported double-time (164); Wikipedia lists it as 'moderately slow' ~82-84 BPM, which matches the natural drummer pulse. Drop D tuning per original setlist note. Standard 4-click count-in."
+Do You Feel Like We Do,Peter Frampton,107,107,4/4,"Rock, extended jam/talkbox solo",C major,404,4,No,No,Ready,18,WIP,WIP,"Long song (studio ~6:44, live version up to 14 min with extended talkbox guitar solo) - confirm with band which arrangement/length you're doing before finalizing the .rpp region length. Standard 4-click count-in."
+(Don't Fear) The Reaper,Blue Öyster Cult,141,141,4/4,"Classic rock, iconic cowbell intro",A minor,308,4,No,No,Ready,19,Active,Fall 2026,Famous cowbell intro sets the tempo before full band enters. Standard 4-click count-in.
+Dreams,Fleetwood Mac,120,120,4/4,Laid-back groove,C major,254,4,No,No,Ready,20,Active,Fall 2026,Standard 4-click count-in.
+Eminence Front,The Who,98,98,4/4,Funk-rock groove,F minor,339,4,No,No,Data ready,,WIP,WIP,Some sources report double-time (196); 98 is the natural drummer pulse. Standard 4-click count-in.
+Everlong,Foo Fighters,158,158,4/4,"Alt rock, dynamic (quiet verse/loud chorus)",B minor,250,4,No,No,Data ready,,Active,Fall 2026,Standard 4-click count-in.
+Everybody Wants to Rule the World,Tears for Fears,112,112,4/4,80s pop-rock,D major,251,4,No,No,Data ready,,WIP,WIP,Standard 4-click count-in.
+Fly Like an Eagle,Steve Miller Band,100,100,4/4,Laid-back funk groove,A minor,282,4,No,No,Data ready,,Active,Fall 2026,"Standard 4-click count-in. (Distinct from the band's 'Die Like a Beagle' nickname entry, already merged.)"
+Funky Intermission,original / band jam,,,,,,,,,,Blocked - original composition,,Active,Spring Picnic 25,"Original composition by Rich (band leader/guitarist/lead singer) - loosely jammed, not a fixed arrangement. No BPM/key to source; needs Rich's own input if/when it gets formalized."
+Georgy Porgy,Toto,97,97,4/4,Smooth soul/funk,B minor,248,4,No,No,Data ready,,Active,Fall 2026,Standard 4-click count-in.
+Get Down On It,Kool and the Gang,111,111,4/4,Funk/disco groove,A minor,292,4,No,No,Data ready,,Active,Fall 2026,Standard 4-click count-in.
+Gimme Shelter,Rolling Stones,118,118,4/4,Straight rock / loose pocket,C major,270,4,No,No,Ready,,Active,Fall 2026,Band-verified (from prior session DB). Allow for guitar pickup if matching the record.
+Godzilla,Blue Öyster Cult,184,92,4/4,Driving hard rock,E major,221,4,No,No,Data ready,,Retired,Retired Songs,Recording sometimes reported at 184 (double-time); 92 is the natural drummer pulse. Standard 4-click count-in.
+Green Onions,Booker T. & the M.G.'s,136,136,4/4,Instrumental shuffle/groove,F minor,172,4,No,No,Data ready,,WIP,WIP,Standard 4-click count-in. Instrumental - no vocal cue needed.
+Heartbreaker,Pat Benatar,156,156,4/4,Driving hard rock,Db major,207,4,No,No,Data ready,,Active,Spring Picnic 25,Standard 4-click count-in.
+Hells Bells,AC/DC,107,107,4/4,"Heavy, deliberate rock",E minor,313,4,No,No,Data ready,,Active,Fall 2026,"Famous bell intro is free-time before the band enters - click should start at the full-band downbeat, not bar 1. 4-count from there."
+Here Comes My Girl,Tom Petty,105,105,4/4,"Laid-back rock, spoken verses",E major,264,4,No,No,Data ready,,Active,Fall 2026,Standard 4-click count-in.
+Higher Ground,Red Hot Chili Peppers,140,140,4/4,Funk rock,E minor,202,4,No,No,Data ready,,Retired,Retired Songs,Stevie Wonder original; band covers the RHCP arrangement/tempo. Standard 4-click count-in.
+Hold On Loosely,38 Special,127,127,4/4,Southern rock,A major,280,4,No,No,Data ready,,Active,Spring Picnic 25,Standard 4-click count-in.
+Hold the Line,Toto,96,96,4/4,Driving rock,F# minor,237,4,No,No,Data ready,,Active,Fall 2026,Standard 4-click count-in.
+Home at Last,Steely Dan,64,64,4/4,"Steely Dan groove, laid-back",G minor,332,4,No,No,Data ready,,Active,Fall 2026,Recording sometimes reported double-time (128); 64 is the natural drummer pulse. Standard 4-click count-in.
+Hook,Blues Traveler,83,83,4/4,"Rock, satirical hit-song pastiche",A major,289,4,No,No,Data ready,,Retired,Retired Songs,Retired song. Some sources report double-time (166); 83 is the natural drummer pulse.
+Hotel California,Eagles,147.5,75,4/4,Straight,Bm,391,4,No,No,Ready,1,Active,Fall 2026,Pilot song - fully processed (.rpp + .scn generated)
+House of the Rising Sun,The Animals,117,117,4/4,Slow minor-key ballad,A minor,270,4,No,No,Data ready,,WIP,WIP,WIP song. Standard 4-click count-in.
+I Feel Fine,The Beatles,90,90,4/4,"Rock and roll, famous feedback intro",G major,139,4,No,No,Data ready,,WIP,WIP,"WIP song. Opens with a sustained feedback note before the beat - click should start at the first downbeat, not the feedback. 4-count from there."
+I Shot the Sheriff,Bob Marley/Eric Clapton,96,96,4/4,Reggae-rock / one-drop influence,G minor,263,4,No,No,Ready,,Active,Fall 2026,Band-verified (from prior session DB).
+I Think About You All the Time,Deftones,136,136,3/4,"Alt rock, drop D",C major,249,4,No,No,Data ready,,Active,Fall 2026,"Time signature is 3/4, not 4/4 - flag for the band. Drop D tuning per original setlist note. Standard 4-click count-in."
+I Will Survive,Gloria Gaynor,117,117,4/4,Disco,,198,4,No,No,Ready,,Active,Fall 2026,"Band-verified (from prior session DB), version-dependent. Do not click through a free intro unless tempo-mapped."
+I'm Your Captain,Grand Funk Railroad,99,99,4/4,"Prog rock, builds to orchestral outro",G major,609,4,No,No,Data ready,,WIP,WIP,"WIP song. Full recording is 10 minutes with two distinct movements (verses, then a long repeated orchestral outro) - confirm with band whether you're doing the full length or a trimmed version before finalizing the .rpp."
+Immigrant Song,Led Zeppelin,113,113,4/4,"Driving hard rock, iconic scream intro",B major,146,4,No,No,Data ready,,Active,Spring Picnic 25,Original setlist lists key as 'F' - likely a vocal capo/transposition note rather than the recording's actual key (B major); confirm with band. Standard 4-click count-in.
+Island in the Sun,Weezer,115,115,4/4,Laid-back alt rock,E minor,200,4,No,No,Data ready,,WIP,WIP,Standard 4-click count-in.
+Jailbreak,Thin Lizzy,145,145,4/4,Driving hard rock,Eb major,241,4,No,No,Data ready,,WIP,WIP,Standard 4-click count-in.
+Jessie's Girl,Rick Springfield,132,132,4/4,Power pop rock,D major,195,4,No,No,Data ready,,Active,Fall 2026,Standard 4-click count-in.
+Jesus Just Left Chicago,ZZ Top,72,72,4/4,Slow blues shuffle groove,G major,208,4,No,No,Data ready,,Active,Fall 2026,Standard 4-click count-in.
+Jumpin' Jack Flash,Rolling Stones,137,137,4/4,Driving classic rock,Eb major,223,4,No,No,Data ready,,Active,Fall 2026,Standard 4-click count-in.
+Just Got Paid,ZZ Top,100,100,4/4,Blues rock groove,E minor,267,4,No,No,Data ready,,WIP,WIP,Standard 4-click count-in.
+Just What I Needed,The Cars,127,127,4/4,New wave rock,E major,226,4,No,No,Data ready,,Active,Fall 2026,Standard 4-click count-in.
+Kashmir,Led Zeppelin,81,81,3/4 (riff in implied 4/4 over it - polymeter),"Epic, orchestral rock",D major,508,4,No,No,Data ready,,WIP,WIP,Polymeter: the main riff is felt in 4 while the underlying pulse is in 3 - this needs a band decision on how the click should be structured before building a tempo map. Flagged as a known complexity.
+Keep on Rockin' in the Free World,Neil Young,132,132,4/4,Driving rock,E minor,282,4,No,No,Data ready,,Active,Fall 2026,Standard 4-click count-in.
+Kiss Me,Sixpence None the Richer,96,96,4/4,"Light pop, capo'd acoustic guitar",Eb major,208,4,No,No,Data ready,,Active,Fall 2026,Capo 3 per original setlist note. Standard 4-click count-in.
+Linger,The Cranberries,96,96,4/4,Dreamy alt rock ballad,G major,275,4,No,No,Data ready,,Active,Fall 2026,Standard 4-click count-in.
+Listen to Her Heart,Tom Petty,125,125,4/4,Power pop rock,A major,183,4,No,No,Data ready,,WIP,WIP,Standard 4-click count-in.
+Long Train Runnin',Doobie Brothers,117,117,4/4,Funky groove rock,G minor,207,4,No,No,Data ready,,Active,Fall 2026,Standard 4-click count-in.
+Love Is a Long Road,Tom Petty,116,116,4/4,Straight rock,,248,4,No,No,Ready,,Active,Fall 2026,Band-verified (from prior session DB). Standard 4-click count-in.
+Magic Man,Heart,103,103,4/4,"Rock groove, synth-driven",G minor,328,4,No,No,Data ready,,Active,Rich,Standard 4-click count-in.
+Mary Jane's Last Dance,Tom Petty,170,85,4/4,Mid-tempo rock,G minor,272,4,No,No,Data ready,,Active,Fall 2026,Recording sometimes reported double-time (170); 85 is the natural drummer pulse.
+Movin' On,Bad Company,117,117,4/4,Driving mid-tempo rock groove,C major,200,4,No,No,Data ready,,WIP,WIP,"Confirmed as Bad Company's 'Movin' On' (Bad Company, 1974). Standard 4-click count-in."
+Mr. Brightside,The Killers,148,148,4/4,Driving alt/dance-rock,Db major,223,4,No,No,Data ready,,Active,Fall 2026,Standard 4-click count-in.
+Ohio,Neil Young,143,78,4/4,"Protest anthem, driving",D minor,170,4,No,No,Data ready,,Active,Fall 2026,Sources vary widely (78-143 reported); multitrack reference confirms ~78 as the natural drummer pulse.
+Peg,Steely Dan,117,117,4/4,Smooth jazz-funk groove,G major,237,4,No,No,Data ready,,Active,Fall 2026,Standard 4-click count-in.
+Plush,Stone Temple Pilots,145,72,4/4,"Grunge, dynamic build",G minor,310,4,No,No,Data ready,,Active,Spring Picnic 25,Recording sometimes reported double-time (145); 72 is the natural drummer pulse.
+Pretzel Logic,Steely Dan,96,96,4/4,Jazz-rock shuffle,A minor,271,4,No,No,Data ready,,Active,Fall 2026,Standard 4-click count-in.
+Promises in the Dark,Pat Benatar,158,158,4/4,Driving rock,F major,252,4,No,No,Data ready,,Active,Spring Picnic 25,Standard 4-click count-in.
+Ramble On,Led Zeppelin,99,99,4/4,Folk-rock building to hard rock chorus,A major,275,4,No,No,Data ready,,Active,Rich,Standard 4-click count-in.
+Ready for Love,Bad Company,129,129,4/4,Mid-tempo rock,G major,300,4,No,No,Data ready,,Active,Fall 2026,Standard 4-click count-in.
+Rebel Yell,Billy Idol,166,166,4/4,Driving punk-rock energy,E minor,289,4,No,No,Data ready,,Active,Fall 2026,Standard 4-click count-in.
+Rhiannon,Fleetwood Mac,129,129,4/4,"Building rock, mystical",A minor,253,4,No,No,Data ready,,Active,Spring Picnic 25,Standard 4-click count-in.
+Rock and Roll Fantasy,Bad Company,110,110,4/4,Mid-tempo rock,E minor,195,4,No,No,Data ready,,WIP,WIP,Standard 4-click count-in.
+Santa Monica,Everclear,100,100,4/4,"Alt rock, driving",G major,192,4,No,No,Data ready,,WIP,WIP,Standard 4-click count-in.
+Say It Ain't So,Weezer,152,76,4/4,"Alt rock, dynamic quiet/loud",Eb major,260,4,No,No,Data ready,,WIP,WIP,Recording sometimes reported double-time (152); 76 is the natural drummer pulse.
+Secret Agent Man,Johnny Rivers,163,163,4/4,"Surf-spy rock, driving",E minor,185,4,No,No,Data ready,,Retired,Retired Songs,Retired song. Standard 4-click count-in.
+Smells Like Teen Spirit,Nirvana,117,117,4/4,"Grunge, dynamic quiet/loud",F minor,302,4,No,No,Data ready,,WIP,WIP,Standard 4-click count-in.
+So Lonely,The Police,156,156,4/4,Reggae-tinged verse into driving punk chorus,G major,288,4,No,No,Data ready,,WIP,WIP,Verse has a half-time reggae feel against the same 156 pulse the chorus drives at - flag for the band when building the click/region map.
+Stairway to Heaven,Led Zeppelin,82,82,4/4,Builds from acoustic ballad to full rock through 3 sections,A minor,482,4,No,No,Data ready,,WIP,WIP,Famous tempo ramp across the song's three sections (slow intro -> mid build -> fast rock outro) - needs a band decision on whether to program a tempo map or keep a single click. Flagged as a known complexity.
+Substitute,The Who,136,136,4/4,Driving mod-rock,D major,227,4,No,No,Data ready,,Retired,Retired Songs,Retired song. Standard 4-click count-in.
+Summer of '69,Bryan Adams,140,140,4/4,Driving pop-rock anthem,D major,249,4,No,No,Data ready,,Active,Fall 2026,Standard 4-click count-in.
+Sweet Emotion,Aerosmith,99,99,4/4,"Groove rock, iconic talkbox intro",A major,274,4,No,No,Data ready,,Active,Fall 2026,Talkbox intro is free-time before the main groove enters - click should start at the full-band downbeat. Standard 4-click count-in from there.
+Sweet Home Alabama,Lynyrd Skynyrd,98,98,4/4,Classic Southern rock groove,D major,284,4,No,No,Data ready,,Active,Fall 2026,Standard 4-click count-in.
+The Boys Are Back in Town,Thin Lizzy,163,80,4/4,Driving classic rock,Ab major,266,4,No,No,Data ready,,WIP,WIP,Recording sometimes reported double-time (~163); 80 is the natural drummer pulse.
+Time,Pink Floyd,120,120,4/4,Builds from ambient intro to driving rock,F# minor,423,4,No,No,Data ready,,WIP,WIP,Famous ticking-clocks intro is free-time/ambient before the beat enters - click should start at the first drum downbeat.
+Twist and Shout,The Beatles,125,125,4/4,"Classic rock and roll, building energy",D major,155,4,No,No,Data ready,,Active,Fall 2026,Standard 4-click count-in.
+Who Are You,The Who,156,156,4/4,"Driving rock, synth-inflected",A major,381,4,No,No,Data ready,,Retired,Retired Songs,Retired song. Standard 4-click count-in.
+Wish You Were Here,Pink Floyd,122,122,4/4,"Acoustic-driven, mid-tempo",G major,321,4,No,No,Data ready,,WIP,WIP,Standard 4-click count-in.
+Won't Back Down,Tom Petty,114,114,4/4,Driving anthemic rock,G major,178,4,No,No,Data ready,,Active,Fall 2026,Standard 4-click count-in.
+Yellow Ledbetter,Pearl Jam,141,71,4/4,"Loose, laid-back grunge groove",E major,304,4,No,No,Data ready,,Active,Fall 2026,Recording sometimes reported double-time (141); 71 is the natural drummer pulse. Notoriously loose/unrehearsed feel on the original - band may want a looser click approach.
+You Shook Me All Night Long,AC/DC,127,127,4/4,Driving hard rock,G major,210,4,No,No,Data ready,,WIP,WIP,Standard 4-click count-in.
+Zombie,The Cranberries,167,84,4/4,"Building alt-rock, dynamic quiet verse/loud chorus",G major,307,4,No,No,Data ready,,Active,Spring Picnic 25,Recording sometimes reported double-time (167); 84 is the natural drummer pulse.

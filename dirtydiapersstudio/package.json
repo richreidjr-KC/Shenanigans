@@ -6,7 +6,9 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint"
+    "lint": "eslint",
+    "automation:build": "tsc -p automation/tsconfig.json",
+    "automation": "npm run automation:build && node dist/automation/cli.js"
   },
   "dependencies": {
     "@dnd-kit/core": "^6.3.1",
@@ -15,10 +17,12 @@
     "@netlify/plugin-nextjs": "^5.16.0",
     "@supabase/ssr": "^0.12.7",
     "@supabase/supabase-js": "^2.116.0",
+    "dotenv": "^18.0.4",
     "next": "16.3.4",
     "osc": "^2.4.5",
     "react": "19.2.8",
-    "react-dom": "19.2.8"
+    "react-dom": "19.2.8",
+    "xlsx": "^0.18.5"
   },
   "devDependencies": {
     "@tailwindcss/postcss": "^4.3.3",
