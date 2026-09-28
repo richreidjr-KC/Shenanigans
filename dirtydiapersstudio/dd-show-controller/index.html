@@ -1,0 +1,605 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+    <meta name="theme-color" content="#0d0d0d" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="mobile-web-app-capable" content="yes" />
+    <meta name="color-scheme" content="dark" />
+    <title>DIRTY DIAPERZ — Show Controller</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest" defer></script>
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            colors: {
+              bg: '#0d0d0d',
+              surface: '#161618',
+              raised: '#1e1e21',
+              border: '#2a2a2e',
+              txt: '#f0f0f0',
+              muted: '#6b6b75',
+              dim: '#3a3a40',
+              accent: '#f5a623',
+              live: '#22c55e',
+              danger: '#ef4444',
+              chip: { indigo: '#818cf8' },
+            },
+            fontFamily: {
+              mono: ['"SF Mono"', 'Consolas', '"Courier New"', 'monospace'],
+              sans: ['system-ui', '-apple-system', 'sans-serif'],
+            },
+          },
+        },
+      };
+    </script>
+    <style>
+      *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+      html, body { height: 100%; height: 100dvh; overflow: hidden; }
+      body { background: #0d0d0d; color: #f0f0f0; font-family: system-ui, -apple-system, sans-serif; display: flex; flex-direction: column; }
+
+      ::-webkit-scrollbar { width: 4px; }
+      ::-webkit-scrollbar-track { background: transparent; }
+      ::-webkit-scrollbar-thumb { background: #2a2a2e; border-radius: 2px; }
+
+      .song-card { padding: 14px 16px; border-radius: 8px; margin-bottom: 4px; cursor: pointer; transition: background 150ms; border-left: 3px solid transparent; min-height: 56px; display: flex; flex-direction: column; justify-content: center; }
+      .song-card:hover { background: #1e1e21; }
+      .song-card.selected { background: #1e1e21; border-left-color: #f5a623; }
+      .song-card.is-live { border-left-color: #22c55e; }
+
+      @keyframes pulse-dot { 0%, 100% { opacity: 1; } 50% { opacity: 0.4; } }
+      .pulse-live { animation: pulse-dot 2s ease-in-out infinite; }
+
+      @keyframes toast-in { from { transform: translateX(110%); opacity: 0; } to { transform: translateX(0); opacity: 1; } }
+      @keyframes toast-out { from { transform: translateX(0); opacity: 1; } to { transform: translateX(110%); opacity: 0; } }
+      .toast-enter { animation: toast-in 200ms ease forwards; }
+      .toast-exit { animation: toast-out 200ms ease forwards; }
+
+      .tabular-nums { font-variant-numeric: tabular-nums; }
+
+      /* Full-screen view transitions */
+      #left-panel-p4r9,
+      #right-panel-r9t2 {
+        transition: transform 0.35s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.3s ease;
+        will-change: transform, opacity;
+      }
+
+      /* View states */
+      body[data-view="list"] #left-panel-p4r9 {
+        transform: translateX(0);
+        opacity: 1;
+        pointer-events: auto;
+        position: relative;
+        z-index: 1;
+      }
+      body[data-view="list"] #right-panel-r9t2 {
+        transform: translateX(100%);
+        opacity: 0;
+        pointer-events: none;
+        position: absolute;
+        top: 48px;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        z-index: 0;
+      }
+
+      body[data-view="detail"] #left-panel-p4r9 {
+        transform: translateX(-100%);
+        opacity: 0;
+        pointer-events: none;
+        position: absolute;
+        top: 48px;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        z-index: 0;
+      }
+      body[data-view="detail"] #right-panel-r9t2 {
+        transform: translateX(0);
+        opacity: 1;
+        pointer-events: auto;
+        position: relative;
+        z-index: 1;
+      }
+
+      #main-area-m7w1 {
+        position: relative;
+        overflow: hidden;
+      }
+    </style>
+</head>
+<body data-id="0" data-view="list">
+    <app-icon data-id="1" hidden data-icon="audio-lines" data-palette="Dark"></app-icon>
+
+    <!-- HEADER -->
+    <header data-id="2" id="header-bar-x9k2" class="flex items-center px-5 gap-4 shrink-0" style="height:48px;background:#0d0d0d;border-bottom:1px solid #1e1e21;">
+        <span data-id="3" id="brand-name-b3v7" class="font-sans text-[13px] font-bold tracking-[0.15em]" style="color:#f5a623;">DIRTY DIAPERZ</span>
+        <span data-id="4" id="header-clock-h1m4" class="flex-1 text-center font-mono text-[13px] tabular-nums" style="color:#6b6b75;">--:--:-- --</span>
+        <span data-id="5" id="conn-pill-c5n8" class="flex items-center gap-1.5 text-[12px] shrink-0" style="color:#6b6b75;">
+            <span data-id="6" id="conn-dot-d2j6" class="inline-block w-[7px] h-[7px] rounded-full shrink-0" style="background:#f5a623;box-shadow:0 0 5px #f5a623;"></span>
+            <span data-id="7" id="conn-label-l8q3">Connecting…</span>
+        </span>
+    </header>
+
+    <!-- MAIN -->
+    <div data-id="8" id="main-area-m7w1" class="flex flex-1 min-h-0">
+
+        <!-- LEFT PANEL (SETLIST VIEW) -->
+        <aside data-id="9" id="left-panel-p4r9" class="flex flex-col w-full" style="background:#0d0d0d;">
+            <!-- Setlist sub-header -->
+            <div data-id="10" id="setlist-head-s2k5" class="flex items-center justify-between px-4 shrink-0" style="height:44px;border-bottom:1px solid #1e1e21;">
+                <span data-id="11" class="text-[12px] font-semibold tracking-[0.12em]" style="color:#6b6b75;">SETLIST</span>
+                <span data-id="12" id="song-count-c4m8" class="text-[11px] px-2 py-[2px] rounded-[10px]" style="background:#1e1e21;color:#6b6b75;">0</span>
+            </div>
+            <!-- Song list -->
+            <div data-id="13" id="song-list-l6v3" class="flex-1 overflow-y-auto p-2">
+                <div data-id="14" id="empty-state-e1n7" class="flex flex-col items-center justify-center h-full px-5 py-10 text-center">
+                    <span data-id="15" style="font-size:32px;color:#2a2a2e;">♫</span>
+                    <p data-id="16" class="text-[14px] mt-3" style="color:#3a3a40;">No songs loaded</p>
+                    <p data-id="17" class="text-[12px] mt-2 leading-relaxed" style="color:#3a3a40;">Connecting to Supabase…</p>
+                </div>
+            </div>
+        </aside>
+
+        <!-- RIGHT PANEL (DETAIL VIEW) -->
+        <main data-id="18" id="right-panel-r9t2" class="flex-1 flex flex-col min-h-0 overflow-y-auto" style="background:#0d0d0d;">
+            <!-- Back button -->
+            <div data-id="19" id="back-bar-bk1" class="shrink-0 px-4 flex items-center" style="height:44px;border-bottom:1px solid #1e1e21;">
+                <button data-id="20" id="back-btn-bk2" class="flex items-center gap-2 text-[13px] font-semibold tracking-[0.06em] py-2 px-1" style="color:#f5a623;background:none;border:none;cursor:pointer;min-height:44px;min-width:44px;">
+                    <i data-id="21" data-lucide="arrow-left" class="w-4 h-4"></i>
+                    <span data-id="22">SETLIST</span>
+                </button>
+            </div>
+
+            <!-- Song detail content -->
+            <div data-id="23" class="flex-1 flex flex-col min-h-0 p-6 md:p-8">
+                <!-- Placeholder (no song selected) -->
+                <div data-id="24" id="placeholder-ph3k" class="flex-1 flex flex-col items-center justify-center">
+                    <span data-id="25" style="font-size:48px;color:#1e1e21;">♩</span>
+                    <p data-id="26" class="text-[15px] mt-4" style="color:#3a3a40;">Select a song from the setlist</p>
+                </div>
+
+                <!-- Song detail (hidden until selection) -->
+                <div data-id="27" id="detail-view-d7f1" class="flex-1 flex-col justify-between hidden" style="display:none;">
+                    <!-- TOP -->
+                    <div data-id="28" id="detail-top-t4a2">
+                        <h1 data-id="29" id="detail-title-t9c6" class="text-[28px] md:text-[32px] font-bold leading-tight" style="color:#f0f0f0;">—</h1>
+                        <div data-id="30" id="detail-meta-m2b5" class="flex flex-wrap gap-3 mt-2"></div>
+                    </div>
+
+                    <!-- MIDDLE: BPM -->
+                    <div data-id="31" id="bpm-center-b8z4" class="flex-1 flex flex-col items-center justify-center py-6">
+                        <span data-id="32" id="bpm-value-v3k1" class="font-mono font-extrabold tabular-nums" style="font-size:clamp(72px,14vw,120px);line-height:1;color:#2a2a2e;letter-spacing:-2px;">—</span>
+                        <span data-id="33" class="text-[13px] font-semibold tracking-[0.2em] mt-2" style="color:#3a3a40;">BPM</span>
+                    </div>
+
+                    <!-- BOTTOM -->
+                    <div data-id="34" id="detail-bottom-b1q6">
+                        <!-- NOW LIVE bar -->
+                        <div data-id="35" id="now-live-bar-n5w9" class="flex items-center gap-2 px-3.5 py-2.5 rounded-md mb-4" style="background:#161618;border:1px solid #1e1e21;">
+                            <span data-id="36" id="live-dot-d6r2" class="text-[12px]" style="color:#2a2a2e;">●</span>
+                            <span data-id="37" class="text-[10px] font-bold tracking-[0.12em]" style="color:#6b6b75;">NOW LIVE</span>
+                            <span data-id="38" id="live-info-i4e8" class="text-[13px]" style="color:#3a3a40;">Nothing active yet</span>
+                        </div>
+                        <!-- SET LIVE button -->
+                        <button data-id="39" id="set-live-btn-a2f7" class="w-full font-bold tracking-[0.1em] rounded-lg transition-all duration-150" style="height:52px;font-size:15px;background:#1e1e21;color:#3a3a40;border:none;cursor:not-allowed;" disabled>
+                            SET LIVE
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- TOAST CONTAINER -->
+    <div data-id="40" id="toast-box-t8g5" class="fixed bottom-5 right-5 flex flex-col-reverse gap-2 pointer-events-none" style="z-index:9999;"></div>
+
+    <!-- FOOTER CREDIT -->
+    <div data-id="41" style="display:none;">Made by Copilot</div>
+
+    <script type="module">
+        import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm';
+
+        // ===== STATE =====
+        let SUPABASE_URL = 'https://ejdpcizxmbvxbzipwsfb.supabase.co';
+        let SUPABASE_KEY = 'sb_publishable_aTp1MufuuzY9nkHjpqYtCw_c3mkMmN_';
+        let supabase = null;
+        let songs = [];
+        let selectedSong = null;
+        let liveSongId = null;
+        let realtimeChannel = null;
+        let refreshInterval = null;
+        let titleCol = null;
+        let bpmCol = null;
+        let keyCol = null;
+        let extraCols = [];
+
+        // ===== ELEMENTS =====
+        const clockEl = document.getElementById('header-clock-h1m4');
+        const connDot = document.getElementById('conn-dot-d2j6');
+        const connLabel = document.getElementById('conn-label-l8q3');
+        const songCountEl = document.getElementById('song-count-c4m8');
+        const songListEl = document.getElementById('song-list-l6v3');
+        const emptyStateEl = document.getElementById('empty-state-e1n7');
+        const placeholderEl = document.getElementById('placeholder-ph3k');
+        const detailView = document.getElementById('detail-view-d7f1');
+        const detailTitle = document.getElementById('detail-title-t9c6');
+        const detailMeta = document.getElementById('detail-meta-m2b5');
+        const bpmValue = document.getElementById('bpm-value-v3k1');
+        const liveDot = document.getElementById('live-dot-d6r2');
+        const liveInfo = document.getElementById('live-info-i4e8');
+        const setLiveBtn = document.getElementById('set-live-btn-a2f7');
+        const toastBox = document.getElementById('toast-box-t8g5');
+        const backBtn = document.getElementById('back-btn-bk2');
+
+        // ===== ICONS =====
+        if (typeof lucide !== 'undefined' && typeof lucide.createIcons === 'function') {
+            lucide.createIcons();
+        }
+
+        // ===== VIEW NAVIGATION =====
+        function showListView() {
+            document.body.setAttribute('data-view', 'list');
+        }
+
+        function showDetailView() {
+            document.body.setAttribute('data-view', 'detail');
+        }
+
+        backBtn.addEventListener('click', () => {
+            showListView();
+        });
+
+        // ===== CLOCK (12-hour with AM/PM) =====
+        function updateClock() {
+            const now = new Date();
+            clockEl.textContent = now.toLocaleTimeString('en-US', { hour12: true, hour: '2-digit', minute: '2-digit', second: '2-digit' });
+        }
+        setInterval(updateClock, 1000);
+        updateClock();
+
+        // ===== TOASTS =====
+        function showToast(message, type = 'info') {
+            const styles = {
+                success: 'background:#166534;border-left:3px solid #22c55e;',
+                error: 'background:#7f1d1d;border-left:3px solid #ef4444;',
+                info: 'background:#1e1e21;border-left:3px solid #3a3a40;',
+            };
+            const t = document.createElement('div');
+            t.className = 'toast-enter pointer-events-auto';
+            t.style.cssText = `padding:12px 16px;border-radius:6px;font-size:13px;color:#f0f0f0;max-width:320px;display:flex;align-items:center;gap:10px;box-shadow:0 4px 16px rgba(0,0,0,0.4);word-break:break-word;${styles[type] || styles.info}`;
+            t.textContent = message;
+            toastBox.appendChild(t);
+            setTimeout(() => {
+                t.className = 'toast-exit pointer-events-auto';
+                setTimeout(() => t.remove(), 200);
+            }, 4000);
+        }
+
+        // ===== CONNECTION STATUS =====
+        function setConn(state, label) {
+            const colors = { green: '#22c55e', amber: '#f5a623', red: '#ef4444' };
+            connDot.style.background = colors[state] || colors.amber;
+            connDot.style.boxShadow = `0 0 5px ${colors[state] || colors.amber}`;
+            connLabel.textContent = label;
+        }
+
+        // ===== DETECT COLUMNS =====
+        function detectColumns(row) {
+            const keys = Object.keys(row);
+            titleCol = keys.find(k => /^(title|name|song_name|song_title)$/i.test(k)) || null;
+            bpmCol = ['drummer_click_bpm','recording_bpm','bpm','tempo'].find(k => keys.includes(k)) || keys.find(k => /bpm|tempo/i.test(k)) || null;
+            keyCol = keys.find(k => /^(key|musical_key|song_key)$/i.test(k)) || null;
+            const skip = new Set(['id', titleCol, bpmCol, keyCol, 'setlist_order', 'created_at', 'updated_at'].filter(Boolean));
+            extraCols = keys.filter(k => !skip.has(k));
+        }
+
+        function getTitle(s) { return titleCol ? (s[titleCol] || 'Untitled') : `Song #${s.id}`; }
+        function getBpm(s) { return bpmCol && s[bpmCol] != null ? Number(s[bpmCol]) : null; }
+        function getKey(s) { return keyCol ? (s[keyCol] || null) : null; }
+        function esc(str) { const d = document.createElement('div'); d.textContent = str; return d.innerHTML; }
+
+        // ===== RENDER SONGS =====
+        function renderSongs() {
+            songCountEl.textContent = songs.length;
+
+            if (songs.length === 0) {
+                emptyStateEl.style.display = 'flex';
+                emptyStateEl.innerHTML = `
+                    <span style="font-size:32px;color:#2a2a2e;">♫</span>
+                    <p class="text-[14px] mt-3" style="color:#3a3a40;">No songs loaded</p>
+                    <p class="text-[12px] mt-2 leading-relaxed" style="color:#3a3a40;">Run <code class="font-mono" style="color:#f5a623;">00_setup.sql</code> in Supabase to enable anon read access on the <code class="font-mono" style="color:#f5a623;">songs</code> table.</p>`;
+                return;
+            }
+            emptyStateEl.style.display = 'none';
+
+            // Remove old cards
+            songListEl.querySelectorAll('.song-card').forEach(c => c.remove());
+
+            songs.forEach((song, idx) => {
+                const card = document.createElement('div');
+                card.className = 'song-card';
+                card.dataset.songId = song.id;
+
+                if (selectedSong && String(selectedSong.id) === String(song.id)) card.classList.add('selected');
+                if (liveSongId && String(liveSongId) === String(song.id)) card.classList.add('is-live');
+
+                const title = getTitle(song);
+                const bpm = getBpm(song);
+                const key = getKey(song);
+                const isLive = liveSongId && String(liveSongId) === String(song.id);
+
+                let html = `<div class="flex items-center gap-3">
+                    <span class="font-mono text-[13px] w-6 text-right shrink-0" style="color:#3a3a40;">${String(idx + 1).padStart(2, '0')}</span>
+                    <span class="text-[15px] font-medium flex-1 truncate" style="color:#f0f0f0;">${esc(title)}</span>`;
+                if (isLive) {
+                    html += `<span class="text-[10px] font-bold tracking-[0.08em] px-1.5 py-[1px] rounded" style="background:#22c55e;color:#000;">LIVE</span>`;
+                }
+                html += `</div>`;
+
+                if (bpm != null || key) {
+                    html += `<div class="flex gap-1.5 mt-1.5" style="padding-left:36px;">`;
+                    if (bpm != null) html += `<span class="text-[12px] px-1.5 py-[1px] rounded" style="color:#f5a623;background:rgba(245,166,35,0.1);">${bpm} BPM</span>`;
+                    if (key) html += `<span class="text-[12px] px-1.5 py-[1px] rounded" style="color:#818cf8;background:rgba(129,140,248,0.1);">${esc(key)}</span>`;
+                    html += `</div>`;
+                }
+
+                card.innerHTML = html;
+                card.addEventListener('click', () => selectSong(song));
+                songListEl.appendChild(card);
+            });
+        }
+
+        // ===== SELECT SONG =====
+        function selectSong(song) {
+            selectedSong = song;
+
+            // Show detail, hide placeholder
+            placeholderEl.style.display = 'none';
+            detailView.style.display = 'flex';
+            detailView.classList.remove('hidden');
+
+            const title = getTitle(song);
+            const bpm = getBpm(song);
+            const key = getKey(song);
+
+            detailTitle.textContent = title;
+
+            // Meta
+            let metaHtml = '';
+            if (key) metaHtml += `<div><span class="text-[10px] font-semibold tracking-[0.12em]" style="color:#6b6b75;">KEY</span> <span class="text-[13px] ml-1" style="color:#a0a0a8;">${esc(key)}</span></div>`;
+            extraCols.forEach(col => {
+                if (song[col] != null && song[col] !== '') {
+                    metaHtml += `<div><span class="text-[10px] font-semibold tracking-[0.12em] uppercase" style="color:#6b6b75;">${esc(col)}</span> <span class="text-[13px] ml-1" style="color:#a0a0a8;">${esc(String(song[col]))}</span></div>`;
+                }
+            });
+            detailMeta.innerHTML = metaHtml;
+
+            // BPM
+            if (bpm != null) {
+                bpmValue.textContent = bpm;
+                bpmValue.style.color = '#f5a623';
+            } else {
+                bpmValue.textContent = '—';
+                bpmValue.style.color = '#2a2a2e';
+            }
+
+            // Button state
+            updateBtnState();
+
+            // Highlight in list
+            songListEl.querySelectorAll('.song-card').forEach(c => {
+                c.classList.toggle('selected', String(c.dataset.songId) === String(song.id));
+            });
+
+            // Switch to detail view
+            showDetailView();
+        }
+
+        // ===== BUTTON STATE =====
+        function updateBtnState() {
+            if (!selectedSong) {
+                setLiveBtn.disabled = true;
+                setLiveBtn.style.background = '#1e1e21';
+                setLiveBtn.style.color = '#3a3a40';
+                setLiveBtn.style.border = 'none';
+                setLiveBtn.style.cursor = 'not-allowed';
+                setLiveBtn.textContent = 'SET LIVE';
+                return;
+            }
+            const isThisLive = liveSongId && String(liveSongId) === String(selectedSong.id);
+            if (isThisLive) {
+                setLiveBtn.disabled = true;
+                setLiveBtn.style.background = 'transparent';
+                setLiveBtn.style.color = '#22c55e';
+                setLiveBtn.style.border = '2px solid #22c55e';
+                setLiveBtn.style.cursor = 'default';
+                setLiveBtn.textContent = '● LIVE NOW';
+            } else {
+                setLiveBtn.disabled = false;
+                setLiveBtn.style.background = '#f5a623';
+                setLiveBtn.style.color = '#000';
+                setLiveBtn.style.border = 'none';
+                setLiveBtn.style.cursor = 'pointer';
+                setLiveBtn.textContent = 'SET LIVE';
+            }
+        }
+
+        // ===== SET LIVE =====
+        async function handleSetLive() {
+            if (!selectedSong || setLiveBtn.disabled) return;
+            const title = getTitle(selectedSong);
+            const bpmVal = getBpm(selectedSong);
+
+            setLiveBtn.disabled = true;
+            setLiveBtn.textContent = 'SENDING…';
+            setLiveBtn.style.background = '#c8860f';
+            setLiveBtn.style.color = '#000';
+            setLiveBtn.style.cursor = 'wait';
+
+            try {
+                const { error } = await supabase.from('show_control').insert([{
+                    song_id: String(selectedSong.id),
+                    title: title,
+                    bpm: bpmVal,
+                    activated_at: new Date().toISOString()
+                }]);
+
+                if (error) {
+                    if (error.message && error.message.includes('does not exist')) {
+                        showToast('Run 00_setup.sql first — show_control table not found.', 'error');
+                    } else {
+                        showToast(`Error: ${error.message}`, 'error');
+                    }
+                } else {
+                    liveSongId = String(selectedSong.id);
+                    updateNowLive(title, bpmVal);
+                    renderSongs();
+                    updateBtnState();
+                    showToast(`🎸 ${title} is now LIVE!`, 'success');
+                }
+            } catch (err) {
+                showToast(`Error: ${err.message}`, 'error');
+            }
+
+            if (!liveSongId || String(liveSongId) !== String(selectedSong.id)) {
+                setLiveBtn.style.background = '#f5a623';
+                setLiveBtn.style.color = '#000';
+                setLiveBtn.style.cursor = 'pointer';
+                setLiveBtn.disabled = false;
+            }
+            updateBtnState();
+        }
+        setLiveBtn.addEventListener('click', handleSetLive);
+
+        // Hover effects for the button
+        setLiveBtn.addEventListener('mouseenter', () => {
+            if (!setLiveBtn.disabled && setLiveBtn.style.background === '#f5a623') {
+                setLiveBtn.style.background = '#f0a010';
+                setLiveBtn.style.transform = 'translateY(-1px)';
+                setLiveBtn.style.boxShadow = '0 4px 20px rgba(245,166,35,0.3)';
+            }
+        });
+        setLiveBtn.addEventListener('mouseleave', () => {
+            if (!setLiveBtn.disabled) {
+                updateBtnState();
+                setLiveBtn.style.transform = '';
+                setLiveBtn.style.boxShadow = '';
+            }
+        });
+        setLiveBtn.addEventListener('mousedown', () => {
+            setLiveBtn.style.transform = 'translateY(0)';
+        });
+
+        // ===== NOW LIVE =====
+        function updateNowLive(title, bpm) {
+            if (title) {
+                liveDot.style.color = '#22c55e';
+                liveDot.classList.add('pulse-live');
+                liveInfo.style.color = '#f0f0f0';
+                liveInfo.textContent = title + (bpm != null ? ` — ${bpm} BPM` : '');
+            } else {
+                liveDot.style.color = '#2a2a2e';
+                liveDot.classList.remove('pulse-live');
+                liveInfo.style.color = '#3a3a40';
+                liveInfo.textContent = 'Nothing active yet';
+            }
+        }
+
+        // ===== REALTIME =====
+        function subscribeRealtime() {
+            if (realtimeChannel) {
+                supabase.removeChannel(realtimeChannel);
+            }
+            try {
+                realtimeChannel = supabase
+                    .channel('show_control_live')
+                    .on('postgres_changes', { event: 'INSERT', schema: 'public', table: 'show_control' }, (payload) => {
+                        if (payload.new) {
+                            liveSongId = String(payload.new.song_id);
+                            updateNowLive(payload.new.title || '', payload.new.bpm);
+                            renderSongs();
+                            if (selectedSong) updateBtnState();
+                        }
+                    })
+                    .subscribe();
+            } catch (e) {
+                // Realtime is optional
+            }
+        }
+
+        // ===== FETCH SONGS =====
+        async function fetchSongs() {
+            try {
+                const { data, error } = await supabase
+                    .from('songs')
+                    .select('*')
+                    .order('setlist_order', { ascending: true, nullsFirst: false })
+                    .order('id', { ascending: true });
+
+                if (error) {
+                    setConn('red', '● Error');
+                    showToast('Error loading songs: ' + error.message, 'error');
+                    songs = [];
+                    renderSongs();
+                    return;
+                }
+
+                if (data && data.length > 0) {
+                    detectColumns(data[0]);
+                    songs = data;
+                } else {
+                    songs = [];
+                }
+
+                setConn('green', '● Connected');
+                renderSongs();
+
+                // Restore selection
+                if (selectedSong) {
+                    const still = songs.find(s => String(s.id) === String(selectedSong.id));
+                    if (still) {
+                        selectedSong = still;
+                        // Re-render detail without switching views
+                        const title = getTitle(still);
+                        const bpm = getBpm(still);
+                        const key = getKey(still);
+                        detailTitle.textContent = title;
+                        if (bpm != null) {
+                            bpmValue.textContent = bpm;
+                            bpmValue.style.color = '#f5a623';
+                        }
+                        updateBtnState();
+                    }
+                }
+            } catch (err) {
+                setConn('red', '● Error');
+                showToast('Connection failed: ' + err.message, 'error');
+                songs = [];
+                renderSongs();
+            }
+        }
+
+        // ===== INIT =====
+        async function initSupabase() {
+            setConn('amber', '● Connecting…');
+            try {
+                supabase = createClient(SUPABASE_URL, SUPABASE_KEY);
+                await fetchSongs();
+                subscribeRealtime();
+                if (refreshInterval) clearInterval(refreshInterval);
+                refreshInterval = setInterval(fetchSongs, 30000);
+            } catch (err) {
+                setConn('red', '● Error');
+                showToast('Failed to connect: ' + err.message, 'error');
+            }
+        }
+
+        // ===== BOOT =====
+        initSupabase();
+    </script>
+</body>
+</html>
