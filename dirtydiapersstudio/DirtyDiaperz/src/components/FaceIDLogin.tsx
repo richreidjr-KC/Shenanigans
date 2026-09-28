@@ -13,7 +13,7 @@ export default function FaceIDLogin() {
   async function handleLogin() {
     setStatus("Sending login email...");
 
-    const { data, error } = await supabase.auth.signInWithOtp({
+    const { error } = await supabase.auth.signInWithOtp({
       email,
       options: { shouldCreateUser: false }
     });
@@ -26,25 +26,22 @@ export default function FaceIDLogin() {
     setStatus("Login email sent. Check your inbox.");
   }
 
-  // Step 2 — Start MFA challenge (FaceID / TOTP / WebAuthn)
+  // Step 2 — Start MFA challenge
   async function startChallenge() {
     setStatus("Starting MFA challenge...");
 
-    // Get user's factors
     const { data: factorsData, error: factorsError } =
       await supabase.auth.mfa.listFactors();
 
-    if (factorsError || !factorsData?.factors?.length) {
+    // FIXED: Supabase MFA API uses "all", not "factors"
+    if (factorsError || !factorsData?.all?.length) {
       setStatus("No MFA factors found.");
       return;
     }
 
-    // Pick the first factor (FaceID/WebAuthn/TOTP)
-    const factor = factorsData.factors[0];
+    const factor = factorsData.all[0];
     setFactorId(factor.id);
 
-    // IMPORTANT:
-    // Supabase removed `factorType` — you ONLY pass factorId now.
     const { data: challengeData, error: challengeError } =
       await supabase.auth.mfa.challenge({
         factorId: factor.id
@@ -68,7 +65,7 @@ export default function FaceIDLogin() {
 
     setStatus("Verifying challenge...");
 
-    const { data, error } = await supabase.auth.mfa.verify({
+    const { error } = await supabase.auth.mfa.verify({
       factorId,
       challengeId,
       code
@@ -94,3 +91,32 @@ export default function FaceIDLogin() {
         style={{ padding: 10, width: "100%", marginBottom: 10 }}
       />
 
+      <button
+        onClick={handleLogin}
+        style={{ padding: 10, width: "100%" }}
+      >
+        Send Login Email
+      </button>
+
+      <button
+        onClick={startChallenge}
+        style={{ padding: 10, width: "100%", marginTop: 10 }}
+      >
+        Start MFA Challenge
+      </button>
+
+      <input
+        type="text"
+        placeholder="Enter MFA code"
+        onKeyDown={(e) => {
+          if (e.key === "Enter") {
+            verifyChallenge((e.target as HTMLInputElement).value);
+          }
+        }}
+        style={{ padding: 10, width: "100%", marginTop: 10 }}
+      />
+
+      <p style={{ marginTop: 20 }}>{status}</p>
+    </div>
+  );
+}
