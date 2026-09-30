@@ -1,6 +1,7 @@
 [build]
+  base = "dirtydiapersstudio"
   command = "npm run build"
-  publish = "dirtydiapersstudio/.next"
+  publish = ".next"
   functions = "netlify/functions"
 
 [[plugins]]
