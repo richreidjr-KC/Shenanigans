@@ -1,14 +1,7 @@
 [build]
   base = "dirtydiapersstudio"
+  publish = "dirtydiapersstudio/.next"
   command = "npm run build"
-  publish = ".next"
-  functions = "netlify/functions"
 
 [[plugins]]
   package = "@netlify/plugin-nextjs"
-
-[functions]
-  node_bundler = "esbuild"
-
-[build.environment]
-  NETLIFY_NEXT_PLUGIN_FORCE = "true"
