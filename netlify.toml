@@ -1,7 +1,7 @@
 [build]
-  base = "dirtydiapersstudio"
   command = "npm run build"
-  publish = ".next"
+  publish = "dirtydiapersstudio/.next"
+  functions = "netlify/functions"
 
 [[plugins]]
   package = "@netlify/plugin-nextjs"
