@@ -1,9 +1,10 @@
 [build]
+  base = "dirtydiapersstudio"
   command = "npm run build"
-  publish = "dirtydiapersstudio/.next"
+  publish = ".next"
 
 [functions]
-  directory = "dirtydiapersstudio/netlify/functions"
+  directory = "netlify/functions"
 
 [[plugins]]
   package = "@netlify/plugin-nextjs"
