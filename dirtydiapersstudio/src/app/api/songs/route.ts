@@ -1,30 +1,32 @@
 import { cookies } from "next/headers";
-import { createServerClient, type CookieOptions } from "@supabase/ssr";
+import { createServerClient } from "@supabase/ssr";
 
-export async function POST(req: Request) {
+export async function GET() {
+  const cookieStore = await cookies();
+
   const supabase = createServerClient(
     process.env.NEXT_PUBLIC_SUPABASE_URL!,
     process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
     {
       cookies: {
-        get: (name: string) => cookies().get(name)?.value,
-        set: (name: string, value: string, options: CookieOptions) =>
-          cookies().set({ name, value, ...options }),
-        remove: (name: string, options: CookieOptions) =>
-          cookies().set({ name, value: "", ...options })
-      }
+        get(name: string) {
+          return cookieStore.get(name)?.value;
+        },
+        set(name: string, value: string, options: any) {
+          cookieStore.set({ name, value, ...options });
+        },
+        remove(name: string, options: any) {
+          cookieStore.set({ name, value: "", ...options });
+        },
+      },
     }
   );
 
-  const body = await req.json();
-
-  const { data, error } = await supabase.from("songs").insert(body);
+  const { data: songs, error } = await supabase.from("songs").select("*");
 
   if (error) {
-    return new Response(JSON.stringify({ error: error.message }), {
-      status: 400
-    });
+    return Response.json({ error: error.message }, { status: 500 });
   }
 
-  return new Response(JSON.stringify({ data }), { status: 200 });
+  return Response.json(songs);
 }
